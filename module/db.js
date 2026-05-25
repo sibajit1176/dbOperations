@@ -1,11 +1,44 @@
-const mysql=require('mysql2')
+const {Sequelize}=require('sequelize')
 
-const connection=mysql.createConnection({
+
+
+
+const sequelize=new Sequelize('testdb','root','siba',{
     host:'localhost',
-    user:"root",
-    password:"siba",
-    database:"testdb"
-})
+    dialect:'mysql'
+});
+
+module.exports=sequelize
 
 
-module.exports=connection
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const mysql=require('mysql2')
+
+// const connection=mysql.createConnection({
+//     host:'localhost',
+//     user:"root",
+//     password:"siba",
+//     database:"testdb"
+// })
+
+
+// module.exports=connection

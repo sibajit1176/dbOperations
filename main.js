@@ -1,5 +1,5 @@
 const express=require('express')
-const database=require('./module/db')
+const sequelize=require('./module/db')
 const createStudentTable= require('./module/studentModel')
 const Studentrouter=require('./routers/studentsRouter')
 
@@ -14,15 +14,37 @@ app.use((req,res)=>{
     res.status(404).send('<h1>Page not found</h1>')
 })
 
-database.connect((err)=>{
-  if(err){
-    console.log('database connection failed:',err);
-    return
-  }
-  console.log('Database connected');
-  createStudentTable()
-  app.listen(port,()=>{
-  console.log(`server run on ${port}`);
+// database.connect((err)=>{
+//   if(err){
+//     console.log('database connection failed:',err);
+//     return
+//   }
+//   console.log('Database connected');
+//   createStudentTable()
+//   app.listen(port,()=>{
+//   console.log(`server run on ${port}`);
   
-})
-})
+// })
+// })
+const startServer = async () => {
+
+    try {
+
+        await sequelize.authenticate();
+        await sequelize.sync({force:true})
+        console.log('Database connected');
+
+        app.listen(port, () => {
+
+            console.log(`server run on ${port}`);
+
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+    }
+};
+
+startServer();
