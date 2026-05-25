@@ -61,10 +61,28 @@ const deleteStudent=((req,res)=>{
             res.status(200).send(`${id} deleted`)
   })
 })
+const getStudentDetails=((req,res)=>{
+  const {id} = req.params
+  const getQuery='SELECT * FROM students WHERE id=?'
+  db.execute(getQuery,[id],(err,result)=>{
+    if(err){
+        console.log(err.message);
+        res.status(500).send(err.message)
+        db.end()
+        return;
+    }
+    if(result.affectedRows==0){
+              res.status(400).send('Student not found')
+              return
+    }
+            res.status(200).send(result)
+  })
+})
 
 module.exports={
     addStudent,
     getStudents,
     updateStudent,
-    deleteStudent
+    deleteStudent,
+    getStudentDetails
 }
